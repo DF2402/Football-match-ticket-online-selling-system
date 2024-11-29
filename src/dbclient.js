@@ -1,5 +1,5 @@
-import { MongoClient, ServerApiVersion } from 'mongodb';
-import config from './config.js';
+import { MongoClient, ServerApiVersion } from "mongodb";
+import config from "./config.js";
 const connect_uri = config.CONNECTION_STR;
 const client = new MongoClient(connect_uri, {
   connectTimeoutMS: 2000,
@@ -14,11 +14,11 @@ async function connect() {
   try {
     // TODO
     await client.connect();
-    client.db('ftss').command({ ping: 1 });
-    console.log('Successfully connected to the database!');
+    client.db("ftss").command({ ping: 1 });
+    console.log("Successfully connected to the database!");
   } catch (err) {
     // TODO
-    console.log('Unable to establish connection to the database!');
+    console.log("Unable to establish connection to the database!");
     process.exit(1);
   }
 }

@@ -1,35 +1,39 @@
-import express from 'express';
-import session from 'express-session';
-import login from './login.js';
-import Mongostore from 'connect-mongo';
-import client from './dbclient.js';
+import express from "express";
+import session from "express-session";
+import login from "./login.js";
+import match from "./match.js";
+import Mongostore from "connect-mongo";
+import client from "./dbclient.js";
+
 const app = express();
 
 app.use(
   session({
-    secret: '<Student ID>_eie4432_ftss',
+    secret: "<Student ID>_eie4432_ftss",
     resave: false,
     saveUninitialized: false,
     cookie: { httpOnly: true },
     store: Mongostore.create({
       client,
-      dbName: 'ftss',
-      collectionName: 'session',
+      dbName: "ftss",
+      collectionName: "session",
     }),
-  })
+  }),
 );
 
-app.use('/auth', login);
+app.use("/auth", login);
 
-app.get('/', (req, res) => {
+app.use("/booking", match);
+
+app.get("/", (req, res) => {
   if (req.session.logged == true) {
-    res.redirect('/index.html');
+    res.redirect("/matches.html");
   } else {
-    res.redirect('/login.html');
+    res.redirect("/login.html");
   }
 });
 
-app.use('/', express.static('static'));
+app.use("/", express.static("static"));
 
 app.listen(8080, () => {
   console.log(`Current date and time in HKT: ${Date().toString()}`);

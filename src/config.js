@@ -1,8 +1,8 @@
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 if (!process.env.CONNECTION_STR) {
-  console.error('CONNECTION_STR is not defined');
+  console.error("CONNECTION_STR is not defined");
   process.exit(1);
 }
 
