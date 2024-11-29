@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>获取月历信息</title>
+    <style>
+        /* 月历容器 */
+        .month-calendar {
+            width: 500px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        
+        /* 月历标题 */
+        .month-calendar-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        /* 月历日子背景色 */
+        .day-cell {
+            width: 40px;
+            height: 40px;
+            border: 1px solid #ddd;
+            display: inline-block;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="month-calendar">
+        <h2 class="month-calendar-title" id="title">2023年1月</h2>
+        
+        <!-- 月历日子容器 -->
+        <div class="day-cells">
+            <!-- 单个日子容器 -->
+            <div class="day-cell" data-date="1"></div>
+            <!-- ... -->
+        </div>
+        
+        <!-- 日子信息容器 -->
+        <div class="day-info">
+            <!-- 日子信息显示区域 -->
+            <p id="day-count">本月有 31 天</p>
+            <p id="week-day"></p>
+        </div>
+        
+        <!-- 脚本代码 -->
+        <script>
+            // 获取当前日期
+            const date = new Date();
+            
+            // 获取当前月份和年份
+            const month = date.getMonth() + 1;
+            const year = date.getFullYear();
+             // 创建一个日历对象
+            const calendar = new Date(year, month - 1, 0);
+            
+            // 获取本月有多少天
+            const daysInMonth = calendar.getDate();
+
+            $("#title").text(month+","+year);
+            console.log(month,year); 
+           
+            
+            // 显示本月有多少天
+            document.getElementById("day-count").innerHTML = `本月有 ${daysInMonth} 天`;
+            
+            // 获取每一日是星期几
+            for (let i = 1; i <= daysInMonth; i++) {
+                $('#month-calendar').append(`<div class="day-cell" data-date="${i}"></div>`);
+                const dayCell = document.querySelector(`.day-cell[data-date="${i}"]`);
+                
+                if (dayCell) {
+                    const weekDay = new Date(year, month - 1, i).getDay();
+                    
+                    // 显示每一日是星期几
+                    if (weekDay === 0) {
+                        dayCell.innerHTML = `周日 (${i})`;
+                    } else if (weekDay === 1) {
+                        dayCell.innerHTML = `周一 (${i})`;
+                    } else if (weekDay === 2) {
+                        dayCell.innerHTML = `周二 (${i})`;
+                    } else if (weekDay === 3) {
+                        dayCell.innerHTML = `周三 (${i})`;
+                    } else if (weekDay === 4) {
+                        dayCell.innerHTML = `周四 (${i})`;
+                    } else if (weekDay === 5) {
+                        dayCell.innerHTML = `周五 (${i})`;
+                    } else if (weekDay === 6) {
+                        dayCell.innerHTML = `周六 (${i})`;
+                    }
+                }
+            }
+        </script>
+    </div>
+</body>
+</html>
