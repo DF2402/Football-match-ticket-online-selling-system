@@ -22,6 +22,16 @@ app.use(
   }),
 );
 
+const requireLogin = (req, res, next) => {
+  if (!req.session.logged) {
+    res.redirect("/login.html");
+  } else {
+    next();
+  }
+};
+
+app.use(requireLogin);
+
 app.use("/auth", login);
 
 app.use("/booking", match);
@@ -38,6 +48,10 @@ app.get("/", (req, res) => {
 
 app.get("/matches", async (req, res) => {
   res.redirect("/matches.html");
+});
+
+app.get("/profile", async (req, res) => {
+  res.redirect("/profile.html");
 });
 app.use("/", express.static("static"));
 

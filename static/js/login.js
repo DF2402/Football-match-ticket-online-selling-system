@@ -20,7 +20,7 @@ function validateForm() {
 $(document).ready(function () {
   $("#login").click(function () {
     event.preventDefault();
-    console.log("click");
+    //console.log("click");
     if (!validateForm()) {
       return;
     }

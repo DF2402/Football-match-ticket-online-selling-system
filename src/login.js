@@ -2,6 +2,7 @@ import express from "express";
 import multer from "multer";
 import fs from "fs/promises";
 import client from "./dbclient.js";
+import bodyParser from "body-parser";
 
 import {
   validate_user,
@@ -39,14 +40,13 @@ route.post("/login", form.none(), async (req, res) => {
   }
 });
 
-route.get("/me", (req, res) => {
+route.get("/me", async (req, res) => {
   if (req.session.logged == true) {
-    const user = fetch_user(req.session.username);
+    const username = req.session.username;
+    console.log(username);
     return res.json({
       status: "success",
-      user: {
-        username: user.username,
-      },
+      username: username,
     });
   } else {
     return res.status(401).json({
@@ -56,7 +56,54 @@ route.get("/me", (req, res) => {
   }
 });
 
-route.post("/logout", (req, res) => {
+route.get("/get_me", async (req, res) => {
+  if (req.session.logged == true) {
+    const username = req.session.username;
+    const user = await fetch_user(username);
+    //console.log(user);
+    return res.json({
+      status: "success",
+      user: user,
+    });
+  } else {
+    return res.status(401).json({
+      status: "failed",
+      message: "Unauthorized",
+    });
+  }
+});
+
+route.post("/get_me", bodyParser.json(), async (req, res) => {
+  try {
+    const username = req.session.username;
+    console.log(req.body);
+    const user = await fetch_user(username);
+    var nickname = user.nickname;
+    if (req.body.nickname) {
+      nickname = req.body.nickname;
+      console.log(nickname);
+    }
+    const password = req.body.password || user.password;
+
+    const email = req.body.email || user.email;
+    const gender = user.gender;
+    const birthday = user.birthday;
+
+    update_user(username, password, nickname, email, gender, birthday);
+
+    return res.json({
+      status: "success",
+      user: user,
+    });
+  } catch (err) {
+    return res.json({
+      status: "failed",
+      err: err,
+    });
+  }
+});
+
+route.post("/logout", async (req, res) => {
   if (req.session.logged == true) {
     req.session.destroy();
     res.end();

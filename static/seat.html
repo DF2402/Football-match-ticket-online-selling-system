@@ -73,7 +73,9 @@
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">Heat event</a></li>
                 <li>
-                  <a class="dropdown-item" href="/matches">Event schedule</a>
+                  <a class="dropdown-item" href="match_detail.html"
+                    >Event schedule</a
+                  >
                 </li>
               </ul>
             </div>
@@ -86,18 +88,20 @@
                 >User</a
               >
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li>
+                  <a class="dropdown-item" href="profile.html">Profile</a>
+                </li>
                 <li><a class="dropdown-item" href="#">Ticket</a></li>
                 <li><a class="dropdown-item" href="#">Transaction</a></li>
               </ul>
             </div>
-            <a class="nav-link me-3" href="#" role="button">login</a>
+            <a class="nav-link me-3" href="login.html" role="button">login</a>
           </div>
         </div>
       </div>
     </nav>
     <div
-      class="d-flex flex-column justify-content-center container-fluid pt-4"
+      class="d-flex flex-column justify-content-center container-fluid"
       id="container"
     >
       <div class="d-flex flex-wrap row justify-content-center g-1" id="row1">
@@ -106,7 +110,7 @@
           id="left"
         ></div>
         <div
-          class="col-md-10 px-2 d-inline-flex justify-content-center"
+          class="col-md-10 d-inline-flex justify-content-center"
           id="svg_col"
         ></div>
         <div
@@ -123,6 +127,18 @@
           class="col-md-6 d-flex justify-content-center px-4"
           id="book_col"
         ></div>
+      </div>
+      <div class="row" id="title">
+        <div class="col" id="teams"></div>
+      </div>
+      <div class="row">
+        <div class="col" id="date"></div>
+      </div>
+      <div class="row">
+        <div class="col" id="time"></div>
+      </div>
+      <div class="row">
+        <div class="col" id="venue"></div>
       </div>
     </div>
     <footer class="text-white bg-dark text-center py-4 fixed-bottom">

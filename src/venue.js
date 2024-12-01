@@ -19,8 +19,9 @@ route.post("/venue", bodyParser.json(), async (req, res) => {
 
 route.get("/seat", async (req, res) => {
   const venue = req.query.venue;
+  const id = req.query.id;
   //console.log(venue);
-  res.redirect(`/seat.html?venue=${venue}`);
+  res.redirect(`/seat.html?venue=${venue}&id=${id}`);
 });
 
 export default route;

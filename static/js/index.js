@@ -1,6 +1,6 @@
 $(document).ready(function () {
   const username = sessionStorage.getItem("username");
-  const role = sessionStorage.getItem("role");
+
   $("#greeting").text(`Welcome back! ${username} (${role})`);
   $.ajax({
     url: "/auth/me",

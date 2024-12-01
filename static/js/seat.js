@@ -2,8 +2,8 @@ $(document).ready(function () {
   const queryString = window.location.search;
   const params = queryString.split("&");
   const venue = decodeURIComponent(params[0].split("=")[1]);
+  const id = decodeURIComponent(params[1].split("=")[1]);
   //console.log(venue);
-
   $.ajax({
     url: "/seat_map/venue",
     type: "POST",
@@ -16,7 +16,7 @@ $(document).ready(function () {
     .done(function (response) {
       const result = response;
       if (result.status === "success") {
-        console.log(result);
+        //console.log(result);
         const venue = JSON.parse(result.venue);
         display_stands(venue);
       }
@@ -33,23 +33,70 @@ $(document).ready(function () {
 });
 
 function display_stands(venue) {
+  const queryString = window.location.search;
+  const params = queryString.split("&");
+  const id = decodeURIComponent(params[1].split("=")[1]);
+
+  $.ajax({
+    url: "/booking/match",
+    type: "POST",
+    data: JSON.stringify({ id: id }),
+    contentType: "application/json",
+    success: function (data) {
+      //console.log(data);
+    },
+  })
+    .done(function (response) {
+      const result = response;
+      if (result.status === "success") {
+        const match = JSON.parse(result.match);
+        $(".col").addClass("text-center pt-4").css("height", "40px");
+        $("#teams")
+          .text(`${match.team_A} vs ${match.team_B}`)
+          .css("font-size", "40px");
+        $("#date").text(match.date).css("font-size", "20px");
+        $("#time").text(match.time).css("font-size", "20px");
+        $("#venue").text(match.venue).css("font-size", "20px");
+      }
+    })
+    .fail(function (response) {
+      let errorResponse;
+      errorResponse = JSON.parse(response.responseText);
+      if (errorResponse.status === "failed") {
+        alert(errorResponse.message);
+      } else {
+        alert("Unknown error");
+      }
+    });
+
   const stand_lst = venue.stands;
   var stands = $(document.createElementNS("http://www.w3.org/2000/svg", "svg"));
-  stands.attr("id", "stands").attr("width", "1200px").attr("height", `1400px`);
+  stands.attr("id", "stands").attr("width", "1200px").attr("height", `400px`);
   var count = 0;
   var cur_stand;
   stand_lst.forEach((stand) => {
     const name = stand.stand;
     const m = stand.m;
     const n = stand.n;
-    const sold = stand.sold;
-    let ratio = sold.length / (stand.m * stand.n);
+    get_sold_seats(id).then((sold_map) => {
+      let keys = Object.keys(sold_map);
+      keys.forEach((key) => {
+        let value = sold_map[key];
+        sessionStorage.setItem(`${key}`, JSON.stringify(value));
+      });
+    });
+
+    const sold = sessionStorage.getItem(`${name}`) || [];
+    window.sessionStorage.removeItem(`${name}`);
+    console.log(sold);
+    let ratio = (sold.length + 1) / (m * n);
+    console.log(ratio);
     var svg = $(document.createElementNS("http://www.w3.org/2000/svg", "svg"));
     svg
       .attr("x", `${count * 200}`)
       .attr("width", "180px")
       .attr("height", `380px`)
-      .attr("style", "border: 1px solid black;")
+      .attr("style", "border: 1px solid black")
       .attr("name", `${name}`);
 
     var rect = $(
@@ -80,7 +127,7 @@ function display_stands(venue) {
       .attr("x", "50px")
       .attr("y", `200px`)
       .attr("font-size", "32px")
-      .text(`${name} ${ratio.toFixed(2) * 100}%`);
+      .text(`${name} ${(ratio * 100).toFixed(2)}%`);
     svg.append(text);
     stands.append(svg);
     count++;
@@ -93,7 +140,7 @@ function display_stands(venue) {
     seat_svg
       .attr("width", `${m * 50 + 30}`)
       .attr("height", `${n * 50 + 80}px`)
-      .attr("style", "border: 1px solid black;")
+      .attr("style", "border: 1px solid black")
       .attr("id", `Seat_${name}`)
       .attr("class", "Seat_map");
 
@@ -138,34 +185,35 @@ function display_stands(venue) {
       }
     }
     $(`#Seat_${name}`).toggle();
-
-    var selected = [];
-
-    $(".seat").on("click", function () {
-      var id = $(this).attr("id");
-      console.log(id);
-      if (selected.indexOf(id) === -1) {
-        selected.push(id);
-        $(this).addClass("selected");
-      } else {
-        selected.splice(selected.indexOf(id), 1);
-        $(this).removeClass("selected");
-      }
-      console.log(selected);
-    });
   });
+
+  var selected = [];
+
+  $(".seat").on("click", function () {
+    var id = $(this).attr("id");
+    //console.log(id);
+    if (selected.indexOf(id) === -1) {
+      selected.push(id);
+      $(this).addClass("selected");
+    } else {
+      selected.splice(selected.indexOf(id), 1);
+      $(this).removeClass("selected");
+    }
+    //console.log(selected);
+  });
+
   $("#svg_col").append(stands);
 
   var left_button = $(
-    '<button type="button" class="btn col-1 mx-10" id="left"> &lt; </button>',
+    '<button type="button" class="btn col-1 mx-10" id="left_button"> &lt; </button>',
   );
   var right_button = $(
-    '<button type="button" class="btn col-1 mx-10" id="right"> &gt; </button>',
+    '<button type="button" class="btn col-1 mx-10" id="right_button"> &gt; </button>',
   );
-  $("#left").append(left_button).toggle();
-  $("#right").append(right_button).toggle();
+  $("#left_button").append(left_button).toggle();
+  $("#right_button").append(right_button).toggle();
 
-  $("#left").on("click", function () {
+  $("#left_button").on("click", function () {
     var index = stand_lst.indexOf(cur_stand);
     //sconsole.log(index);
     if (index > 0) {
@@ -180,7 +228,7 @@ function display_stands(venue) {
     $(`#Seat_${stand_lst[index].stand}`).toggle();
   });
 
-  $("#right").on("click", function () {
+  $("#right_button").on("click", function () {
     var index = stand_lst.indexOf(cur_stand);
     //console.log(index);
     if (index < stand_lst.length - 1) {
@@ -201,17 +249,24 @@ function display_stands(venue) {
   var book_button = $(
     '<button type="button" class="btn btn-primary   align-text-bottom" id="book"> Pay </button>',
   );
-  $("#back_col").append(back_button).toggle();
-  $("#book_col").append(book_button).toggle();
+  $(".col").addClass("text-center py-2 my-2").css("height", "40px");
+  $("#back_col").append(back_button);
+  $("#book_col").append(book_button);
+  $("#back").toggle();
+  $("#book").toggle();
 
   $("#back").on("click", function () {
-    $("#left").toggle();
-    $("#right").toggle();
+    $("#left_button").toggle();
+    $("#right_button").toggle();
     $(`#Seat_${cur_stand.stand}`).toggle();
-    $("#back_col").toggle();
-    $("#book_col").toggle();
+    $("#back").toggle();
+    $("#book").toggle();
 
     $("#stands").toggle();
+  });
+
+  $("#book").on("click", function () {
+    window.location.href = `/booking/pay?id=${id}&selected=${selected}`;
   });
 }
 
@@ -221,10 +276,43 @@ function getBgColor(ratio) {
 }
 
 function display_seat(stand) {
-  $("#left").toggle();
-  $("#right").toggle();
+  $("#left_button").toggle();
+  $("#right_button").toggle();
   $(`#Seat_${stand.stand}`).toggle();
-  $("#back_col").toggle();
-  $("#book_col").toggle();
-  //console.log( stands.length);
+  $("#back").toggle();
+  $("#book").toggle();
+}
+
+function get_sold_seats(match_id) {
+  return $.ajax({
+    url: "/booking/get_transactions",
+    type: "POST",
+    data: JSON.stringify({ match_id }),
+    contentType: "application/json",
+  })
+    .then((response) => {
+      const result = response;
+      var seat_map = {};
+      if (result.status === "success") {
+        const seat_lst = result.seat_lst;
+
+        seat_lst.forEach((seat) => {
+          const parts = seat.split(" ");
+          const stand = parts[0];
+          const seatNo = parseInt(parts[1]);
+          if (!seat_map[stand]) {
+            seat_map[stand] = [];
+          }
+          seat_map[stand].push(seatNo);
+        });
+        console.log(seat_map);
+        return seat_map;
+      } else {
+        return []; // 或者其他处理方式
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      return false;
+    });
 }

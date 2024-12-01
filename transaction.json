@@ -1,0 +1,26 @@
+[
+  {
+    "username": "DannyFeng",
+    "Date": "2024-12-1",
+    "time": "22:00",
+    "match_id": "674c5cd671ddd592a9e5520c",
+    "ticket": [
+      {
+        "seat_class": "First Class",
+        "fee": "100",
+        "seat": "B 1"
+      },
+      {
+        "seat_class": "First Class",
+        "fee": "100",
+        "seat": "B 3"
+      }
+    ],
+    "credit_card": {
+      "cardNo": "2207550122075501",
+      "name": "Feng Wai Lam",
+      "expriydate": "09/25",
+      "cvv": "166"
+    }
+  }
+]

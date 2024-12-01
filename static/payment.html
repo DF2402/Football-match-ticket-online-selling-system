@@ -55,7 +55,11 @@
               >
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">Heat event</a></li>
-                <li><a class="dropdown-item" href="#">Event schedule</a></li>
+                <li>
+                  <a class="dropdown-item" href="match_detail.html"
+                    >Event schedule</a
+                  >
+                </li>
               </ul>
             </div>
             <div class="dropdown">
@@ -67,11 +71,14 @@
                 >User</a
               >
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li>
+                  <a class="dropdown-item" href="profile.html">Profile</a>
+                </li>
                 <li><a class="dropdown-item" href="#">Ticket</a></li>
                 <li><a class="dropdown-item" href="#">Transaction</a></li>
               </ul>
             </div>
+            <a class="nav-link me-3" href="login.html" role="button">login</a>
           </div>
         </div>
       </div>
@@ -81,7 +88,7 @@
     >
       <form
         method="post"
-        action="/auth/#"
+        action="#"
         enctype="multipart/form-data"
         class="col-md-8"
       >
@@ -91,14 +98,7 @@
         <div class="row mb-4">
           <div class="mb-3">
             <label class="form-label">Card number: </label>
-            <input
-              type="number"
-              class="form-control"
-              pattern="[0-9]*"
-              id="cardNo"
-              inputmode="numeric"
-              name="cardNo"
-            />
+            <input type="text" class="form-control" id="cardNo" name="cardNo" />
           </div>
         </div>
         <div class="row mb-4">
@@ -114,7 +114,6 @@
               id="expriydate"
               type="text"
               pattern="/^\d{2}\/\d{2}$/"
-              inputmode="numeric"
               maxlength="5"
             />
           </div>
@@ -122,19 +121,13 @@
         <div class="row mb-4">
           <div class="mb-3">
             <label class="form-label">CVV: </label>
-            <input
-              id="cvv"
-              type="number"
-              pattern="/^\d{3}"
-              inputmode="numeric"
-              maxlength="3"
-            />
+            <input id="cvv" type="text" pattern="/^\d{3}" maxlength="3" />
           </div>
         </div>
 
         <div class="row mb-3 d-none message"></div>
         <button type="button" id="pay" class="btn btn-success">pay</button>
-        <a href="login.html" type="button" id="back" class="btn btn-danger"
+        <a href="matches.html" type="button" id="back" class="btn btn-danger"
           >cancel</a
         >
       </form>
