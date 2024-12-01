@@ -1,0 +1,12 @@
+[
+  {
+    "venue": "Tsing Yi Sports Ground",
+    "stands": [
+      { "stand": "A", "m": 6, "n": 5, "sold": [] },
+      { "stand": "B", "m": 6, "n": 5, "sold": [1, 5, 7, 11, 19] },
+      { "stand": "C", "m": 7, "n": 7, "sold": [] },
+      { "stand": "D", "m": 6, "n": 5, "sold": [] },
+      { "stand": "E", "m": 6, "n": 5, "sold": [] }
+    ]
+  }
+]

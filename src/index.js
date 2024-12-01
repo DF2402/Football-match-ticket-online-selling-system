@@ -2,6 +2,7 @@ import express from "express";
 import session from "express-session";
 import login from "./login.js";
 import match from "./match.js";
+import venue from "./venue.js";
 import Mongostore from "connect-mongo";
 import client from "./dbclient.js";
 
@@ -25,6 +26,8 @@ app.use("/auth", login);
 
 app.use("/booking", match);
 
+app.use("/seat_map", venue);
+
 app.get("/", (req, res) => {
   if (req.session.logged == true) {
     res.redirect("/matches.html");
@@ -33,6 +36,9 @@ app.get("/", (req, res) => {
   }
 });
 
+app.get("/matches", async (req, res) => {
+  res.redirect("/matches.html");
+});
 app.use("/", express.static("static"));
 
 app.listen(8080, () => {

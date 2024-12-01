@@ -1,8 +1,8 @@
 import fs from "fs/promises";
 import client from "./dbclient.js";
+import { ObjectId } from "mongodb";
 
 async function init_db() {
-console.log('connecting');
   try {
     const matches = client.db("ftss").collection("matches");
     if ((await matches.countDocuments()) === 0) {
@@ -55,11 +55,12 @@ async function update_match(match, team_A, team_B, date, time, venue) {
   }
 }
 
-async function fetch_match(team_A, team_B) {
+async function fetch_match(id) {
   try {
     const matches = client.db("ftss").collection("matches");
-
-    const match = await matches.findOne({ team_A: team_A, team_B: team_B });
+    var o_id = new ObjectId(id);
+    const match = await matches.findOne({ _id: o_id });
+    //console.log(match);
     return match;
   } catch (err) {
     console.error("Unable to fetch from database!", err);
@@ -71,10 +72,12 @@ async function fetch_matches_in_period(start, end) {
   try {
     const matches = client.db("ftss").collection("matches");
 
-    const match_lst = await matches.find({
-      date: { $gte: start, $lte: end },
-    }).toArray();
-    console.log(match_lst);
+    const match_lst = await matches
+      .find({
+        date: { $gte: start, $lte: end },
+      })
+      .toArray();
+    //console.log(match_lst);
     return match_lst;
   } catch (err) {
     console.error("Unable to fetch from database!", err);
@@ -84,10 +87,10 @@ async function fetch_matches_in_period(start, end) {
 
 async function fetch_matches_month(month, year) {
   try {
-    const first_day = `${year}-${month}-01`
+    const first_day = `${year}-${month}-01`;
     const calendar = new Date(year, month - 1, 0);
     const daysInMonth = calendar.getDate();
-    const last_day = `${year}-${month}-${daysInMonth}`
+    const last_day = `${year}-${month}-${daysInMonth}`;
     return fetch_matches_in_period(first_day, last_day);
   } catch (err) {
     console.error("Unable to fetch from database!", err);
@@ -110,7 +113,6 @@ async function match_exist(team_A, team_B) {
   }
 }
 
-
 export {
   update_match,
   fetch_match,
@@ -118,4 +120,3 @@ export {
   fetch_matches_in_period,
   fetch_matches_month,
 };
-

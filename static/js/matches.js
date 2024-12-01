@@ -8,7 +8,7 @@ $(document).ready(function () {
     $("#row1").append(`<div class="row" id="row${i + 2}"></div>`);
     for (let j = 0; j < 7; j++) {
       $(`#row${i + 2}`).append(
-        `<div class="day-cell col-1 " id="${i * 7 + j}"></div>`,
+        `<button type="button" class="day-cell col-1 " id="${i * 7 + j}"></button>`,
       );
     }
   }
@@ -65,17 +65,17 @@ function updateCalendar(month, year) {
 
   const jsonData = {
     month: month,
-    year: year
+    year: year,
   };
-  console.log(jsonData);
+  //console.log(jsonData);
   $.ajax({
     url: "/booking/match_coming",
     type: "POST",
     data: JSON.stringify(jsonData),
     contentType: "application/json",
     success: function (data) {
-        console.log(data);
-  }
+      //console.log(data);
+    },
   })
     .done(function (response) {
       const result = response;
@@ -101,13 +101,20 @@ function position(date, offset) {
 }
 
 function diaplay_matched(match_lst) {
-    match_lst.forEach((match) => {
-        const date = new Date (match.date);
-        var month = date.getMonth() + 1;
-        var year = date.getFullYear();
-        let frist_date = new Date(year, month - 1, 1);
-        const offset = frist_date.getDay();
-        const pos = position(date, offset);
-        $(`#${pos}`).append(match.match).append(match.team_A, " vs ", match.team_B);
+  match_lst.forEach((match) => {
+    const date = new Date(match.date);
+    var month = date.getMonth() + 1;
+    var year = date.getFullYear();
+    let frist_date = new Date(year, month - 1, 1);
+    const offset = frist_date.getDay();
+    const pos = position(date, offset);
+    $(`#${pos}`)
+      .append(match.match)
+      .append(match.team_A, " vs ", match.team_B)
+      .addClass("match")
+      .attr("match-id", match._id)
+      .click(function () {
+        window.location.href = "/booking/match_detail?id=" + match._id;
+      });
   });
 }
