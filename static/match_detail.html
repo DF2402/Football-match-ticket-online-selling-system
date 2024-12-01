@@ -17,7 +17,7 @@
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
       crossorigin="anonymous"
     ></script>
-    <script src="js/.js"></script>
+    <script src="js/match_detail.js"></script>
     <title>Football Ticket Sales System</title>
   </head>
   <body style="padding-bottom: 80px">
@@ -55,11 +55,7 @@
               >
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">Heat event</a></li>
-                <li>
-                  <a class="dropdown-item" href="/booking/matches.html"
-                    >Event schedule</a
-                  >
-                </li>
+                <li><a class="dropdown-item" href="#">Event schedule</a></li>
               </ul>
             </div>
             <div class="dropdown">
@@ -81,7 +77,32 @@
         </div>
       </div>
     </nav>
-    <div class="d-inline-flex justify-content-center container-fluid"></div>
+    <div
+      class="d-inline-flex-column justify-content-center container-fluid text-center mx-auto"
+    >
+      <div class="row" id="seats"></div>
+      <div class="row" id="title">
+        <div class="col-6" id="match"></div>
+        <div class="col-6" id="teams"></div>
+      </div>
+      <div class="row">
+        <div class="col" id="date"></div>
+      </div>
+      <div class="row">
+        <div class="col" id="time"></div>
+      </div>
+      <div class="row">
+        <div class="col" id="venue"></div>
+      </div>
+      <div class="row">
+        <div class="col" id="ticket price"></div>
+      </div>
+      <div class="row justify-content-center">
+        <button type="button" class="col-3 btn btn-primary" id="book">
+          Choose your seat
+        </button>
+      </div>
+    </div>
     <footer class="text-white bg-dark text-center py-4 fixed-bottom">
       © 22075501d Feng Wai Lam - EIE4432 Football Ticket Sales System Project
       <div id="dateTime"></div>

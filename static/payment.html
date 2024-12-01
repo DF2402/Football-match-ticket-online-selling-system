@@ -17,7 +17,7 @@
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
       crossorigin="anonymous"
     ></script>
-    <script src="js/.js"></script>
+    <script src="js/payment.js"></script>
     <title>Football Ticket Sales System</title>
   </head>
   <body style="padding-bottom: 80px">
@@ -55,11 +55,7 @@
               >
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">Heat event</a></li>
-                <li>
-                  <a class="dropdown-item" href="/booking/matches.html"
-                    >Event schedule</a
-                  >
-                </li>
+                <li><a class="dropdown-item" href="#">Event schedule</a></li>
               </ul>
             </div>
             <div class="dropdown">
@@ -76,12 +72,73 @@
                 <li><a class="dropdown-item" href="#">Transaction</a></li>
               </ul>
             </div>
-            <a class="nav-link me-3" href="#" role="button">login</a>
           </div>
         </div>
       </div>
     </nav>
-    <div class="d-inline-flex justify-content-center container-fluid"></div>
+    <div
+      class="d-inline-flex justify-content-center container-fluid py-4 px-4 mx-auto position-relative"
+    >
+      <form
+        method="post"
+        action="/auth/#"
+        enctype="multipart/form-data"
+        class="col-md-8"
+      >
+        <div class="row mb-4">
+          <h1 class="">Payment</h1>
+        </div>
+        <div class="row mb-4">
+          <div class="mb-3">
+            <label class="form-label">Card number: </label>
+            <input
+              type="number"
+              class="form-control"
+              pattern="[0-9]*"
+              id="cardNo"
+              inputmode="numeric"
+              name="cardNo"
+            />
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="mb-3">
+            <label class="form-label">Name on Card: </label>
+            <input type="text" class="form-control" id="name" name="name" />
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="mb-3">
+            <label class="form-label">Expriy date: </label>
+            <input
+              id="expriydate"
+              type="text"
+              pattern="/^\d{2}\/\d{2}$/"
+              inputmode="numeric"
+              maxlength="5"
+            />
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="mb-3">
+            <label class="form-label">CVV: </label>
+            <input
+              id="cvv"
+              type="number"
+              pattern="/^\d{3}"
+              inputmode="numeric"
+              maxlength="3"
+            />
+          </div>
+        </div>
+
+        <div class="row mb-3 d-none message"></div>
+        <button type="button" id="pay" class="btn btn-success">pay</button>
+        <a href="login.html" type="button" id="back" class="btn btn-danger"
+          >cancel</a
+        >
+      </form>
+    </div>
     <footer class="text-white bg-dark text-center py-4 fixed-bottom">
       © 22075501d Feng Wai Lam - EIE4432 Football Ticket Sales System Project
       <div id="dateTime"></div>
