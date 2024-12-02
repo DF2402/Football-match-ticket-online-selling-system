@@ -147,9 +147,20 @@ async function generate_transaction(username, match_id, ticket, credit_card) {
   }
 }
 
+async function fetch_all_transactions(username) {
+  try {
+    const matches = client.db("ftss").collection("transaction");
+    const transaction_lst = matches.find().toArray();
+    return transaction_lst;
+  } catch (err) {
+    console.error("Unable to fetch from database!", err);
+    process.exit(1);
+  }
+}
 export {
   fetch_transaction,
   fetch_transactions,
   generate_transaction,
   validate_transaction,
+  fetch_all_transactions,
 };

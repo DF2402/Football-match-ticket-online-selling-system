@@ -1,7 +1,7 @@
 import express from "express";
 import multer from "multer";
 import bodyParser from "body-parser";
-import { fetch_venue, update_match } from "./venuedb.js";
+import { fetch_venue, update_match, fetch_all_venue } from "./venuedb.js";
 
 const route = express.Router();
 const form = multer();
@@ -22,6 +22,16 @@ route.get("/seat", async (req, res) => {
   const id = req.query.id;
   //console.log(venue);
   res.redirect(`/seat.html?venue=${venue}&id=${id}`);
+});
+
+route.post("/fetch_all_venue", async (req, res) => {
+  //console.log(req.body);
+  const venue_lst = await fetch_all_venue();
+  console.log(venue_lst);
+  return res.json({
+    status: "success",
+    venue_lst: JSON.stringify(venue_lst),
+  });
 });
 
 export default route;

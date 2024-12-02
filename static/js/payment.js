@@ -28,6 +28,7 @@ function validateForm() {
 }
 
 function ticket_generate(id, selected) {
+  var fee_sum = 0;
   return $.ajax({
     url: "/booking/match",
     type: "POST",
@@ -44,12 +45,16 @@ function ticket_generate(id, selected) {
           stand = seat.charAt(0);
           const seat_class = match.stand[`${stand}`];
           const fee = match.fee[`${seat_class}`];
+          console.log(match.fee[`${seat_class}`]);
+          fee_sum = fee_sum + fee;
+
           tickets.push({
             seat_class: seat_class,
             fee: fee,
             seat: seat,
           });
         });
+        $("#fee").text(`$ ${fee_sum}`);
         return tickets;
       }
     })
@@ -68,6 +73,35 @@ $(document).ready(function () {
   const selected = decodeURIComponent(params[1].split("=")[1])
     .replace(/"/g, "")
     .split(",");
+
+  $.ajax({
+    url: "/booking/match",
+    type: "POST",
+    data: JSON.stringify({ id: id }),
+    contentType: "application/json",
+  })
+    .done(function (response) {
+      const result = response;
+      if (result.status === "success") {
+        const match = JSON.parse(result.match);
+        $(".col").addClass("pt-4").css("height", "40px");
+        $("#teams")
+          .text(`${match.team_A} vs ${match.team_B}`)
+          .css("font-size", "40px");
+        $("#date").text(match.date).css("font-size", "20px");
+        $("#time").text(match.time).css("font-size", "20px");
+        $("#venue").text(match.venue).css("font-size", "20px");
+      }
+    })
+    .fail(function (response) {
+      let errorResponse;
+      errorResponse = JSON.parse(response.responseText);
+      if (errorResponse.status === "failed") {
+        alert(errorResponse.message);
+      } else {
+        alert("Unknown error");
+      }
+    });
 
   var ticket = [];
   ticket_generate(id, selected).then((tickets) => {

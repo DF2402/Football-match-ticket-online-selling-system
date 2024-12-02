@@ -74,132 +74,128 @@ function display_stands(venue) {
   stands.attr("id", "stands").attr("width", "1200px").attr("height", `400px`);
   var count = 0;
   var cur_stand;
-  stand_lst.forEach((stand) => {
-    const name = stand.stand;
-    const m = stand.m;
-    const n = stand.n;
-    get_sold_seats(id).then((sold_map) => {
-      let keys = Object.keys(sold_map);
-      keys.forEach((key) => {
-        let value = sold_map[key];
-        sessionStorage.setItem(`${key}`, JSON.stringify(value));
-      });
-    });
-
-    const sold = sessionStorage.getItem(`${name}`) || [];
-    window.sessionStorage.removeItem(`${name}`);
-    console.log(sold);
-    let ratio = (sold.length + 1) / (m * n);
-    console.log(ratio);
-    var svg = $(document.createElementNS("http://www.w3.org/2000/svg", "svg"));
-    svg
-      .attr("x", `${count * 200}`)
-      .attr("width", "180px")
-      .attr("height", `380px`)
-      .attr("style", "border: 1px solid black")
-      .attr("name", `${name}`);
-
-    var rect = $(
-      document.createElementNS("http://www.w3.org/2000/svg", "rect"),
-    );
-    rect
-      .attr("x", "0px")
-      .attr("y", `0px`)
-      .attr("width", "200px")
-      .attr("height", `400px`)
-      .css({
-        fill: `${getBgColor(ratio)}`,
-      })
-      .on("click", function () {
-        //console.log(`${name}`);
-        $("#stands").toggle();
-        cur_stand = stand;
-        display_seat(stand, stand_lst);
-      });
-
-    svg.append(rect);
-
-    var text = $(
-      document.createElementNS("http://www.w3.org/2000/svg", "text"),
-    );
-    text
-      .append("text")
-      .attr("x", "50px")
-      .attr("y", `200px`)
-      .attr("font-size", "32px")
-      .text(`${name} ${(ratio * 100).toFixed(2)}%`);
-    svg.append(text);
-    stands.append(svg);
-    count++;
-
-    //bulid seat map
-    var seat_svg = $(
-      document.createElementNS("http://www.w3.org/2000/svg", "svg"),
-    );
-
-    seat_svg
-      .attr("width", `${m * 50 + 30}`)
-      .attr("height", `${n * 50 + 80}px`)
-      .attr("style", "border: 1px solid black")
-      .attr("id", `Seat_${name}`)
-      .attr("class", "Seat_map");
-
-    var text = $(
-      document.createElementNS("http://www.w3.org/2000/svg", "text"),
-    );
-    text
-      .append("text")
-      .attr("x", `${30}px`)
-      .attr("y", `${n * 50 + 40}px`)
-      .attr("font-size", "24px")
-      .text(`Stand ${name}`);
-    seat_svg.append(text);
-
-    for (var i = 0; i < n; i++) {
-      for (var j = 0; j < m; j++) {
-        var rect = $(
-          document.createElementNS("http://www.w3.org/2000/svg", "rect"),
-        );
-        rect
-          .attr("x", `${j * 50 + 20}px`)
-          .attr("y", `${i * 50 + 10}px`)
-          .attr("width", "40px")
-          .attr("height", "40px")
-          .attr("id", `${name} ${i * m + j + 1}`)
-          .attr("class", "seat");
-        if (sold.includes(i * m + j + 1)) {
-          rect.removeClass("seat").addClass("sold");
-        }
-        var text = $(
-          document.createElementNS("http://www.w3.org/2000/svg", "text"),
-        );
-        text
-          .attr("x", `${j * 50 + 22}px`)
-          .attr("y", `${i * 50 + 22}px`)
-          .attr("font-size", "12px")
-          .attr("fill", "white")
-          .text(`${name} ${i * m + j + 1}`);
-        seat_svg.append(rect);
-        seat_svg.append(text);
-        $("#svg_col").append(seat_svg);
-      }
-    }
-    $(`#Seat_${name}`).toggle();
-  });
-
   var selected = [];
 
-  $(".seat").on("click", function () {
-    var id = $(this).attr("id");
-    //console.log(id);
-    if (selected.indexOf(id) === -1) {
-      selected.push(id);
-      $(this).addClass("selected");
-    } else {
-      selected.splice(selected.indexOf(id), 1);
-      $(this).removeClass("selected");
-    }
-    //console.log(selected);
+  get_sold_seats(id).then((soldMap) => {
+    console.log(soldMap["B"]);
+    stand_lst.forEach((stand) => {
+      const name = stand.stand;
+      const m = stand.m;
+      const n = stand.n;
+      const sold = soldMap[`${name}`] || [];
+      console.log(sold);
+      let ratio = sold.length / (m * n);
+      console.log(ratio);
+      var svg = $(
+        document.createElementNS("http://www.w3.org/2000/svg", "svg"),
+      );
+      svg
+        .attr("x", `${count * 200}`)
+        .attr("width", "180px")
+        .attr("height", `380px`)
+        .attr("style", "border: 1px solid black")
+        .attr("name", `${name}`);
+
+      var rect = $(
+        document.createElementNS("http://www.w3.org/2000/svg", "rect"),
+      );
+      rect
+        .attr("x", "0px")
+        .attr("y", `0px`)
+        .attr("width", "200px")
+        .attr("height", `400px`)
+        .css({
+          fill: `${getBgColor(ratio)}`,
+        })
+        .on("click", function () {
+          //console.log(`${name}`);
+          $("#stands").toggle();
+          cur_stand = stand;
+          display_seat(stand, stand_lst);
+        });
+
+      svg.append(rect);
+
+      var text = $(
+        document.createElementNS("http://www.w3.org/2000/svg", "text"),
+      );
+      text
+        .append("text")
+        .attr("x", "20px")
+        .attr("y", `200px`)
+        .attr("font-size", "32px")
+        .text(`${name} ${(ratio * 100).toFixed(2)}%`);
+      svg.append(text);
+      stands.append(svg);
+      count++;
+
+      //bulid seat map
+      var seat_svg = $(
+        document.createElementNS("http://www.w3.org/2000/svg", "svg"),
+      );
+
+      seat_svg
+        .attr("width", `${m * 50 + 30}`)
+        .attr("height", `${n * 50 + 80}px`)
+        .attr("style", "border: 1px solid black")
+        .attr("id", `Seat_${name}`)
+        .attr("class", "Seat_map");
+
+      var text = $(
+        document.createElementNS("http://www.w3.org/2000/svg", "text"),
+      );
+      text
+        .append("text")
+        .attr("x", `${30}px`)
+        .attr("y", `${n * 50 + 40}px`)
+        .attr("font-size", "24px")
+        .text(`Stand ${name}`);
+      seat_svg.append(text);
+
+      for (var i = 0; i < n; i++) {
+        for (var j = 0; j < m; j++) {
+          var rect = $(
+            document.createElementNS("http://www.w3.org/2000/svg", "rect"),
+          );
+          rect
+            .attr("x", `${j * 50 + 20}px`)
+            .attr("y", `${i * 50 + 10}px`)
+            .attr("width", "40px")
+            .attr("height", "40px")
+            .attr("id", `${name} ${i * m + j + 1}`)
+            .attr("class", "seat");
+          if (sold.includes(i * m + j + 1)) {
+            rect.removeClass("seat").addClass("sold");
+          }
+          var text = $(
+            document.createElementNS("http://www.w3.org/2000/svg", "text"),
+          );
+          text
+            .attr("x", `${j * 50 + 22}px`)
+            .attr("y", `${i * 50 + 22}px`)
+            .attr("font-size", "12px")
+            .attr("fill", "white")
+            .text(`${name} ${i * m + j + 1}`);
+          seat_svg.append(rect);
+          seat_svg.append(text);
+          $("#svg_col").append(seat_svg);
+        }
+      }
+      $(`#Seat_${name}`).toggle();
+    });
+
+    $(".seat").on("click", function () {
+      var id = $(this).attr("id");
+      console.log(id);
+      if (selected.indexOf(id) === -1) {
+        selected.push(id);
+        $(this).addClass("selected");
+      } else {
+        selected.splice(selected.indexOf(id), 1);
+        $(this).removeClass("selected");
+      }
+      console.log(selected);
+    });
   });
 
   $("#svg_col").append(stands);
@@ -269,7 +265,6 @@ function display_stands(venue) {
     window.location.href = `/booking/pay?id=${id}&selected=${selected}`;
   });
 }
-
 function getBgColor(ratio) {
   if (ratio > 0.5) return "#ff8080";
   else return "#80ff80";
@@ -295,7 +290,6 @@ function get_sold_seats(match_id) {
       var seat_map = {};
       if (result.status === "success") {
         const seat_lst = result.seat_lst;
-
         seat_lst.forEach((seat) => {
           const parts = seat.split(" ");
           const stand = parts[0];

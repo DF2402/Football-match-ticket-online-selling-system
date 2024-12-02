@@ -22,15 +22,7 @@ app.use(
   }),
 );
 
-const requireLogin = (req, res, next) => {
-  if (!req.session.logged) {
-    res.redirect("/login.html");
-  } else {
-    next();
-  }
-};
-
-app.use(requireLogin);
+app.use("/", express.static("static"));
 
 app.use("/auth", login);
 
@@ -53,7 +45,10 @@ app.get("/matches", async (req, res) => {
 app.get("/profile", async (req, res) => {
   res.redirect("/profile.html");
 });
-app.use("/", express.static("static"));
+
+app.get("/admin", async (req, res) => {
+  res.redirect("/admin.html");
+});
 
 app.listen(8080, () => {
   console.log(`Current date and time in HKT: ${Date().toString()}`);

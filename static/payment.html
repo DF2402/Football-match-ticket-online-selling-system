@@ -42,7 +42,7 @@
           id="navbarNavAltMarkup"
         >
           <div class="navbar-nav my-3 gap-3">
-            <a class="nav-link active link-primary fw-bold" href="#.html"
+            <a class="nav-link active link-primary fw-bold" href="matches.html"
               >Homepage</a
             >
             <div class="dropdown">
@@ -56,7 +56,7 @@
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">Heat event</a></li>
                 <li>
-                  <a class="dropdown-item" href="match_detail.html"
+                  <a class="dropdown-item" href="matches.html"
                     >Event schedule</a
                   >
                 </li>
@@ -84,8 +84,23 @@
       </div>
     </nav>
     <div
-      class="d-inline-flex justify-content-center container-fluid py-4 px-4 mx-auto position-relative"
+      class="d-inline-flex d-flex flex-column justify-content-center container-fluid py-4 px-4 mx-auto position-relative gap-3"
     >
+      <div class="row" id="title">
+        <div class="col" id="teams"></div>
+      </div>
+      <div class="row">
+        <div class="col" id="date"></div>
+      </div>
+      <div class="row">
+        <div class="col" id="time"></div>
+      </div>
+      <div class="row">
+        <div class="col" id="venue"></div>
+      </div>
+      <div class="row">
+        <div class="col" id="fee"></div>
+      </div>
       <form
         method="post"
         action="#"

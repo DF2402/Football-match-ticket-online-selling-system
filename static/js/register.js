@@ -43,7 +43,7 @@ $(document).ready(function () {
           alert(
             `Welcome, ${username}! \n You can login with your account now!`,
           );
-          $(location).attr("href", "/matches.html");
+          $(location).attr("href", "/login.html");
         }
       })
       .fail(function (response) {

@@ -11,6 +11,7 @@ import {
   match_exist,
   fetch_matches_in_period,
   fetch_matches_month,
+  fetch_all_match,
 } from "./matchdb.js";
 
 import {
@@ -18,6 +19,7 @@ import {
   fetch_transactions,
   generate_transaction,
   validate_transaction,
+  fetch_all_transactions,
 } from "./transactiondb.js";
 
 route.post("/match_coming", bodyParser.json(), async (req, res) => {
@@ -97,4 +99,41 @@ route.post("/get_transactions", bodyParser.json(), async (req, res) => {
   });
 });
 
+route.post("/get_all_matches", async (req, res) => {
+  const match_lst = await fetch_all_match();
+  console.log(match_lst);
+  return res.json({
+    status: "success",
+    match_lst: JSON.stringify(match_lst),
+  });
+});
+
+route.post("/get_all_transc", async (req, res) => {
+  const transaction_lst = await fetch_all_transactions();
+  return res.json({
+    status: "success",
+    transaction_lst: JSON.stringify(transaction_lst),
+  });
+});
+
+route.post("/add_match", bodyParser.json(), async (req, res) => {
+  const match = req.body.match;
+  const team_A = req.body.team_A;
+  const team_B = req.body.team_B;
+  const date = req.body.date;
+  const time = req.body.time;
+  const venue = req.body.venue;
+
+  const transaction_lst = await update_match(
+    match,
+    team_A,
+    team_B,
+    date,
+    time,
+    venue,
+  );
+  return res.json({
+    status: "success",
+  });
+});
 export default route;

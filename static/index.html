@@ -21,6 +21,65 @@
     <title>Homepage</title>
   </head>
   <body>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNavAltMarkup"
+          aria-controls="navbarNavAltMarkup"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div
+          class="collapse navbar-collapse justify-content-center"
+          id="navbarNavAltMarkup"
+        >
+          <div class="navbar-nav my-3 gap-3">
+            <a class="nav-link active link-primary fw-bold" href="matches.html"
+              >Homepage</a
+            >
+            <div class="dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                >Event</a
+              >
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Heat event</a></li>
+                <li>
+                  <a class="dropdown-item" href="matches.html"
+                    >Event schedule</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <div class="dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                >User</a
+              >
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item" href="profile.html">Profile</a>
+                </li>
+                <li><a class="dropdown-item" href="#">Ticket</a></li>
+                <li><a class="dropdown-item" href="#">Transaction</a></li>
+              </ul>
+            </div>
+            <a class="nav-link me-3" href="login.html" role="button">login</a>
+          </div>
+        </div>
+      </div>
+    </nav>
     <h1 class="text-center py-4">User Profile Page</h1>
     <h4 id="greeting"></h4>
     <button type="button" id="logout" class="btn btn-success">Logout</button>

@@ -15,7 +15,7 @@ $(document).ready(function () {
         });
     }
   });
-  
+
   $("#update").on("click", function () {
     event.preventDefault();
     const nickname = $("#nickname_input").val();
@@ -48,6 +48,7 @@ $(document).ready(function () {
           user = result.user;
           display_user(user);
           console.log(result.user.username);
+          window.location.href = "/profile";
         }
       })
       .fail(function (response) {
