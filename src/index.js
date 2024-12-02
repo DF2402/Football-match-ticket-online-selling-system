@@ -22,6 +22,8 @@ app.use(
   }),
 );
 
+app.use("/", express.static("static"));
+
 app.use("/auth", login);
 
 app.use("/booking", match);
@@ -39,7 +41,14 @@ app.get("/", (req, res) => {
 app.get("/matches", async (req, res) => {
   res.redirect("/matches.html");
 });
-app.use("/", express.static("static"));
+
+app.get("/profile", async (req, res) => {
+  res.redirect("/profile.html");
+});
+
+app.get("/admin", async (req, res) => {
+  res.redirect("/admin.html");
+});
 
 app.listen(8080, () => {
   console.log(`Current date and time in HKT: ${Date().toString()}`);

@@ -5,6 +5,17 @@
     "team_B": "Tai Po",
     "date": "2024-12-21",
     "time": "15:00",
-    "venue": "Tsing Yi Sports Ground"
+    "venue": "Tsing Yi Sports Ground",
+    "fee": {
+      "First Class": 100,
+      "Second Class": 50
+    },
+    "stand": {
+      "A": "Second Class",
+      "B": "First Class",
+      "C": "First Class",
+      "D": "First Class",
+      "E": "Second Class"
+    }
   }
 ]

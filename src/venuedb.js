@@ -30,6 +30,17 @@ async function fetch_venue(venue) {
   }
 }
 
+async function fetch_all_venue() {
+  try {
+    const venues = client.db("ftss").collection("venue");
+    const result = await venues.find().toArray();
+    return result;
+  } catch (err) {
+    console.error("Unable to fetch from database!", err);
+    process.exit(1);
+  }
+}
+
 async function update_match(venue, stand, m, n) {
   try {
     const venues = client.db("ftss").collection("venue");
@@ -61,4 +72,35 @@ async function update_match(venue, stand, m, n) {
   }
 }
 
-export { fetch_venue, update_match };
+async function add_match(match, team_A, team_B, date, time, venue, fee, stand) {
+  try {
+    const venues = client.db("ftss").collection("venue");
+
+    await venues.updateOne(
+      { venue: venue },
+      {
+        $set: {
+          "stands.$[elem].m": m,
+          "stands.$[elem].n": n,
+        },
+      },
+      {
+        arrayFilters: [{ "elem.stand": stand }],
+      },
+    );
+
+    if (matches.upsertedCount === 1) {
+      console.log("Added 1 venues");
+      return true;
+    } else {
+      console.log(`Added 0 venues`);
+      return true;
+    }
+  } catch (err) {
+    console.error("Unable to update the database!", err);
+    process.exit(1);
+    return false;
+  }
+}
+
+export { fetch_venue, update_match, fetch_all_venue };

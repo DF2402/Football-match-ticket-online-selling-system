@@ -42,7 +42,7 @@
           id="navbarNavAltMarkup"
         >
           <div class="navbar-nav my-3 gap-3">
-            <a class="nav-link active link-primary fw-bold" href="#.html"
+            <a class="nav-link active link-primary fw-bold" href="matches.html"
               >Homepage</a
             >
             <div class="dropdown">
@@ -55,7 +55,11 @@
               >
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">Heat event</a></li>
-                <li><a class="dropdown-item" href="#">Event schedule</a></li>
+                <li>
+                  <a class="dropdown-item" href="matches.html"
+                    >Event schedule</a
+                  >
+                </li>
               </ul>
             </div>
             <div class="dropdown">
@@ -67,12 +71,14 @@
                 >User</a
               >
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li>
+                  <a class="dropdown-item" href="profile.html">Profile</a>
+                </li>
                 <li><a class="dropdown-item" href="#">Ticket</a></li>
                 <li><a class="dropdown-item" href="#">Transaction</a></li>
               </ul>
             </div>
-            <a class="nav-link me-3" href="#" role="button">login</a>
+            <a class="nav-link me-3" href="login.html" role="button">login</a>
           </div>
         </div>
       </div>
@@ -95,7 +101,21 @@
         <div class="col" id="venue"></div>
       </div>
       <div class="row">
-        <div class="col" id="ticket price"></div>
+        <div class="col" id="ticket_price"></div>
+
+        <table id="fee">
+          <thead>
+            <tr id="fee-head"></tr>
+          </thead>
+          <tbody id="fee-data"></tbody>
+
+          <table id="stand">
+            <thead>
+              <tr id="stand-head"></tr>
+            </thead>
+            <tbody id="stand-data"></tbody>
+          </table>
+        </table>
       </div>
       <div class="row justify-content-center">
         <button type="button" class="col-3 btn btn-primary" id="book">

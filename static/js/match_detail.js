@@ -9,9 +9,6 @@ $(document).ready(function () {
     type: "POST",
     data: JSON.stringify({ id: id }),
     contentType: "application/json",
-    success: function (data) {
-      //console.log(data);
-    },
   })
     .done(function (response) {
       const result = response;
@@ -20,7 +17,8 @@ $(document).ready(function () {
         console.log(match.venue);
         diaplay_detail(match);
         $("#book").click(function () {
-          window.location.href = "/seat_map/seat?venue=" + match.venue;
+          window.location.href =
+            "/seat_map/seat?venue=" + match.venue + "&id=" + id;
         });
       }
     })
@@ -44,4 +42,18 @@ function diaplay_detail(match) {
   $("#date").text(match.date).css("font-size", "20px");
   $("#time").text(match.time).css("font-size", "20px");
   $("#venue").text(match.venue).css("font-size", "20px");
+
+  Object.keys(match.fee).forEach((key) => {
+    $("#fee-head").append("<th>" + key + "</th>");
+  });
+  Object.values(match.fee).forEach((value) => {
+    $("#fee-data").append("<th>" + value + "</th>");
+  });
+
+  Object.keys(match.stand).forEach((key) => {
+    $("#stand-head").append("<th> Stand " + key + "</th>");
+  });
+  Object.values(match.stand).forEach((value) => {
+    $("#stand-data").append("<th>" + value + "</th>");
+  });
 }

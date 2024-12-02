@@ -110,4 +110,22 @@ async function username_exist(username) {
   }
 }
 
-export { validate_user, update_user, fetch_user, username_exist };
+async function fetch_all_user() {
+  try {
+    const users = client.db("ftss").collection("users");
+
+    const user_lst = await users.find().toArray();
+    return user_lst;
+  } catch (err) {
+    console.error("Unable to fetch from database!", err);
+    process.exit(1);
+  }
+}
+
+export {
+  validate_user,
+  update_user,
+  fetch_user,
+  username_exist,
+  fetch_all_user,
+};

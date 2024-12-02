@@ -18,9 +18,25 @@ function validateForm() {
 }
 
 $(document).ready(function () {
+  $("#logout").click(function () {
+    if (confirm("comfirm to logout?")) {
+      $.ajax({
+        url: "/auth/logout",
+        type: "post",
+      })
+        .done(function () {
+          window.open("/login.html", "_self");
+        })
+        .fail(function () {
+          alert("error");
+        });
+    }
+  });
+
   $("#login").click(function () {
     event.preventDefault();
-    console.log("click");
+
+    //console.log("click");
     if (!validateForm()) {
       return;
     }

@@ -23,15 +23,15 @@ async function init_db() {
 
 init_db().catch(console.dir);
 
-async function update_match(match, team_A, team_B, date, time, venue) {
+async function update_match(match_name, team_A, team_B, date, time, venue) {
   try {
     const matches = client.db("ftss").collection("matches");
 
     const match = await matches.updateOne(
-      { match: match },
+      { match: match_name },
       {
         $set: {
-          match: match,
+          match: match_name,
           team_A: team_A,
           team_B: team_B,
           date: date,
@@ -113,10 +113,23 @@ async function match_exist(team_A, team_B) {
   }
 }
 
+async function fetch_all_match() {
+  try {
+    const matches = client.db("ftss").collection("matches");
+    const match_lst = await matches.find().toArray();
+    console.log(match_lst);
+    return match_lst;
+  } catch (err) {
+    console.error("Unable to fetch from database!", err);
+    process.exit(1);
+  }
+}
+
 export {
   update_match,
   fetch_match,
   match_exist,
   fetch_matches_in_period,
   fetch_matches_month,
+  fetch_all_match,
 };

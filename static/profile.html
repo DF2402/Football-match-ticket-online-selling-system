@@ -17,7 +17,7 @@
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
       crossorigin="anonymous"
     ></script>
-    <script src="scripts/menu.js"></script>
+    <script src="js/profile.js"></script>
     <title>Football Ticket Sales System</title>
   </head>
   <body style="padding-bottom: 80px">
@@ -42,7 +42,7 @@
           id="navbarNavAltMarkup"
         >
           <div class="navbar-nav my-3 gap-3">
-            <a class="nav-link active link-primary fw-bold" href="#.html"
+            <a class="nav-link active link-primary fw-bold" href="/matches.html"
               >Homepage</a
             >
             <div class="dropdown">
@@ -55,7 +55,11 @@
               >
               <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">Heat event</a></li>
-                <li><a class="dropdown-item" href="#">Event schedule</a></li>
+                <li>
+                  <a class="dropdown-item" href="/matches.html"
+                    >Event schedule</a
+                  >
+                </li>
               </ul>
             </div>
             <div class="dropdown">
@@ -67,17 +71,109 @@
                 >User</a
               >
               <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li>
+                  <a class="dropdown-item" href="profile.html">Profile</a>
+                </li>
                 <li><a class="dropdown-item" href="#">Ticket</a></li>
                 <li><a class="dropdown-item" href="#">Transaction</a></li>
               </ul>
             </div>
-            <a class="nav-link me-3" href="#" role="button">login</a>
+            <a class="nav-link me-3" href="login.html" role="button">login</a>
           </div>
         </div>
       </div>
     </nav>
-    <div class="d-inline-flex justify-content-center container-fluid"></div>
+    <div class="d-inline-flex justify-content-center container-fluid">
+      <div id="display" class="d-flex flex-column justify-content-start">
+        <div class="row display" id="nickname" style="font-size: 40px">
+          Welcome,
+        </div>
+        <div class="row display" id="username">Username,</div>
+        <div class="row display" id="birthday">Birthday,</div>
+        <div class="row display" id="email">Email,</div>
+        <div class="row display" id="gender">Gender:</div>
+        <div class="row display">
+          <button
+            type="button"
+            class="btn btn-primary col-6"
+            id="change_p_info"
+          >
+            Change
+          </button>
+          <button type="button" id="logout" class="btn btn-warning col-6">
+            Logout
+          </button>
+        </div>
+      </div>
+      <div id="change">
+        <form
+          method="post"
+          action="#"
+          enctype="multipart/form-data"
+          class="col-md-8"
+        >
+          <div class="row mb-4">
+            <h1 class="">Update</h1>
+          </div>
+          <div class="row mb-4">
+            <div class="mb-3">
+              <label class="form-label">Nickname: </label>
+              <input
+                type="text"
+                id="nickname_input"
+                name="nickname"
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="mb-3">
+              <label class="form-label">Email: </label>
+              <input
+                type="email"
+                id="email_input"
+                name="email"
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="mb-3">
+              <label class="form-label">Password: </label>
+              <input
+                type="password"
+                id="password_input"
+                name="password"
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="row mb-4">
+            <div class="mb-3">
+              <label class="form-label">Repeat your Password: </label>
+              <input
+                type="password"
+                class="form-control"
+                id="repeat_password_input"
+                name="repeat_password"
+              />
+            </div>
+          </div>
+
+          <div class="row mb-3 d-none message"></div>
+          <a
+            href="/profile.html"
+            type="button"
+            id="back"
+            class="btn btn-success"
+            >Back</a
+          >
+          <button type="button" id="update" class="btn btn-warning">
+            Update
+          </button>
+        </form>
+      </div>
+    </div>
     <footer class="text-white bg-dark text-center py-4 fixed-bottom">
       © 22075501d Feng Wai Lam - EIE4432 Football Ticket Sales System Project
       <div id="dateTime"></div>
